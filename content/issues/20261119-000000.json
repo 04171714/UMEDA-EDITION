@@ -10,8 +10,8 @@
     "popular",
     "mind"
   ],
-  "banner": "",
-  "cover": "",
+  "banner": "/images/uploads/cut_wide_umeda_edition.jpg",
+  "cover": "/images/uploads/cover_umeda_edition_v7.jpg",
   "lead": "",
   "qa": [
     {
@@ -28,6 +28,10 @@
     }
   ],
   "quote": "",
-  "images": [],
+  "images": [
+    "/images/uploads/img_0022.jpg",
+    "/images/uploads/img_0025.jpg",
+    "/images/uploads/img_0024.jpg"
+  ],
   "body": ""
 }
