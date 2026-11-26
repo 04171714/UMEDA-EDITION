@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UMEDA Edition</title>
+<meta name="description" content="梅田で働く男たちの、装いと美学を記録するWebマガジン">
+<meta property="og:title" content="UMEDA Edition">
+<meta property="og:description" content="梅田で働く男たちの、装いと美学を記録するWebマガジン">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<!-- 編集画面の招待メール・パスワード再設定のリンクを受け取るためのウィジェット -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+<header class="site">
+  <p class="tagline wrap" id="tagline">梅田で働く男たちの、装いと美学を記録するWebマガジン</p>
+  <div class="wrap hbar">
+    <a class="logo" href="#top" aria-label="UMEDA Edition トップへ"><b>UMEDA</b><i>Edition</i></a>
+    <div class="hbtns">
+      <button class="iconbtn" type="button" id="searchBtn" aria-label="記事を検索"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></button>
+      <button class="iconbtn menu" type="button" id="menuBtn" aria-expanded="false" aria-controls="drawer"><span class="bars"><i></i><i></i><i></i></span><span class="lbl">MENU</span></button>
+    </div>
+  </div>
+</header>
+<div class="drawer" id="drawer" hidden>
+  <div class="drawer-in">
+    <nav id="nav" aria-label="メニュー"></nav>
+    <form class="sbox" id="drawerSearch" role="search"><input type="search" id="drawerQ" placeholder="キーワード検索" aria-label="キーワード検索"><button type="submit" aria-label="検索"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg></button></form>
+  </div>
+</div>
+<a href="#top" class="pagetop" aria-label="ページの先頭へ">Page<br>Top</a>
+<main id="app"><p class="loading">読み込み中…</p></main>
+<footer class="site">
+  <div class="wrap">
+    <div><h4>UMEDA</h4><p style="margin:0">梅田で働く男たちの装いと美学を、一人ずつ記録するWebマガジン。</p></div>
+    <ul><li><a href="#columns">COLUMN</a></li><li><a href="#cast">PEOPLE</a></li><li><a href="#special">SPECIAL ISSUE</a></li></ul>
+    <ul><li><a href="#about">ABOUT</a></li><li><a id="footIg" href="https://www.instagram.com/">INSTAGRAM</a></li></ul>
+    <div class="copy">© UMEDA EDITION</div>
+  </div>
+</footer>
+<script src="/app.js"></script>
+<script>
+  // 招待メールのリンクから来た人を編集画面へ案内する
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
+    });
+  }
+</script>
+</body>
+</html>

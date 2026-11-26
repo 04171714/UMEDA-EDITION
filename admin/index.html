@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>UMEDA Edition 編集画面</title>
+  <!-- ログイン（Netlify Identity） -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <!-- 編集画面本体（Decap CMS） -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    // 記事プレビューをサイトと同じ見た目に近づける
+    CMS.registerPreviewStyle("/style.css");
+    CMS.registerPreviewStyle("https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Noto+Sans+JP:wght@300;400&display=swap");
+  </script>
+</body>
+</html>

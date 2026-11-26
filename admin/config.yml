@@ -1,0 +1,134 @@
+# ======================================================
+# UMEDA Edition 編集画面（Decap CMS）の設定
+# ======================================================
+backend:
+  name: git-gateway
+  branch: main
+
+# 下書き→確認待ち→公開の3段階で管理する。
+# 「確認待ち」にするとNetlifyがプレビュー用URLを自動で作るので、本人確認に使える。
+publish_mode: editorial_workflow
+
+locale: ja
+site_url: /
+display_url: /
+logo_url: /admin/logo.svg
+
+media_folder: images/uploads
+public_folder: /images/uploads
+
+collections:
+  # ---------------- 記事 ----------------
+  - name: issues
+    label: 記事
+    label_singular: 記事
+    folder: content/issues
+    format: json
+    extension: json
+    create: true
+    slug: "{{year}}{{month}}{{day}}-{{hour}}{{minute}}{{second}}"
+    summary: "{{fields.date | date('YYYY/MM/DD')}}　{{fields.no}}　{{fields.title}}"
+    sortable_fields: [date, title, no]
+    fields:
+      - {label: 種類, name: type, widget: select, default: cast, options: [{label: "通常（スーツ）", value: cast}, {label: "SPECIAL ISSUE（私服）", value: special}, {label: "特集", value: feature}]}
+      - {label: No., name: no, widget: string, hint: "例：001"}
+      - {label: 見出し, name: title, widget: text, hint: "改行するとサイトでも改行されます"}
+      - {label: 公開日, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY/MM/DD", time_format: false}
+      - {label: キャスト, name: cast, widget: relation, collection: people, value_field: id, search_fields: [name, nameEn, id], display_fields: [name], required: false, hint: "先に「キャスト」で登録してから選びます。特集は空欄でOK"}
+      - label: カテゴリ
+        name: cats
+        widget: select
+        multiple: true
+        required: false
+        hint: "在籍店（UMEDA・ANNEX・Prince）はキャストから自動で付きます"
+        options:
+          - {label: "UMEDA", value: umeda}
+          - {label: "ANNEX", value: annex}
+          - {label: "Prince", value: prince}
+          - {label: "SPECIAL ISSUE", value: special}
+          - {label: "人気記事まとめ", value: popular}
+          - {label: "接客術・コミュニケーション", value: serve}
+          - {label: "人間関係・考え方", value: mind}
+          - {label: "セカンドキャリア", value: career}
+          - {label: "美容・メイク・愛用品", value: beauty}
+          - {label: "ファッション", value: fashion}
+      - {label: "バナー画像（横長16:9）", name: banner, widget: image, required: false, hint: "トップのスライダーとSPECIAL ISSUEの記事上部。推奨1600×900px"}
+      - {label: "表紙画像（縦長3:4）", name: cover, widget: image, required: false, hint: "一覧・ランキング・Pick Up・通常記事の表紙。推奨900×1200px"}
+      - {label: リード文, name: lead, widget: text, required: false, hint: "80〜120字"}
+      - label: "Q&A（最大3つ）"
+        name: qa
+        widget: list
+        max: 3
+        required: false
+        summary: "{{fields.q}}"
+        fields:
+          - {label: 質問, name: q, widget: string, hint: "1行で表示されます。短めに"}
+          - {label: 回答, name: a, widget: text, hint: "改行はそのまま、空行で段落が分かれます"}
+      - {label: "引用（Q1の後に大きく表示・任意）", name: quote, widget: text, required: false}
+      - label: "本文の画像（最大4枚）"
+        name: images
+        widget: list
+        max: 4
+        required: false
+        hint: "1枚目はQ1の後、2枚目はQ2の後…に入ります"
+        field: {label: 画像, name: image, widget: image}
+      - {label: "特集の本文（種類が「特集」のときだけ）", name: body, widget: text, required: false, hint: "「## 」で始まる行は見出し、空行で段落"}
+      - {label: "ランキング順位（空欄＝圏外）", name: rank, widget: number, value_type: int, min: 1, max: 10, required: false}
+
+  # ---------------- キャスト ----------------
+  - name: people
+    label: キャスト
+    label_singular: キャスト
+    folder: content/people
+    format: json
+    extension: json
+    create: true
+    identifier_field: id
+    slug: "{{slug}}"
+    summary: "{{fields.name}}（{{fields.shop}}）"
+    fields:
+      - {label: "ID（英数字・ハイフン）", name: id, widget: string, pattern: ['^[a-z0-9-]+$', "半角英小文字・数字・ハイフンで入力してください"], hint: "例：kisaragi-fuyuki（あとから変えないでください）"}
+      - {label: 名前, name: name, widget: string}
+      - {label: ローマ字, name: nameEn, widget: string, required: false}
+      - {label: "プロフィール写真（正方形推奨）", name: photo, widget: image, required: false}
+      - {label: 在籍店, name: shop, widget: select, options: ["ATOM UMEDA", "ATOM ANNEX", "Prince"]}
+      - {label: 役職, name: role, widget: string, required: false}
+      - {label: "InstagramのID", name: ig, widget: string, required: false, hint: "例：@winter_atom"}
+      - {label: 生年月日, name: birth, widget: string, required: false, hint: "例：2003/02/10"}
+      - {label: 身長, name: height, widget: string, required: false}
+      - {label: 血液型, name: blood, widget: string, required: false}
+      - {label: 出身地, name: hometown, widget: string, required: false}
+      - {label: トップに表示する, name: active, widget: boolean, default: true}
+      - {label: "表示順（小さいほど先）", name: order, widget: number, value_type: int, default: 100}
+
+  # ---------------- 広告 ----------------
+  - name: ads
+    label: 広告バナー
+    label_singular: 広告
+    folder: content/ads
+    format: json
+    extension: json
+    create: true
+    slug: "ad-{{year}}{{month}}{{day}}-{{hour}}{{minute}}{{second}}"
+    summary: "{{fields.title}}"
+    fields:
+      - {label: 広告名, name: title, widget: string}
+      - {label: "バナー画像（横1200×縦375推奨）", name: image, widget: image}
+      - {label: リンク先URL, name: link, widget: string, pattern: ['^https?://', "https:// から始まるURLを入力してください"]}
+      - {label: 表示する枠, name: slot, widget: select, default: both, options: [{label: "上の枠（New Columnの下）", value: a}, {label: "下の枠（Searchの下）", value: b}, {label: "両方", value: both}]}
+      - {label: 掲載する, name: active, widget: boolean, default: true}
+      - {label: "表示順（小さいほど先）", name: order, widget: number, value_type: int, default: 100}
+
+  # ---------------- サイト設定 ----------------
+  - name: settings
+    label: サイト設定
+    files:
+      - name: site
+        label: SNS・説明文
+        file: content/settings.json
+        fields:
+          - {label: ヘッダーの説明文, name: tagline, widget: string}
+          - {label: "公式InstagramのID", name: instagram, widget: string, required: false, hint: "例：@umeda_edition"}
+          - {label: "X（旧Twitter）のURL", name: x, widget: string, required: false}
+          - {label: "TikTokのURL", name: tiktok, widget: string, required: false}
+          - {label: "YouTubeのURL", name: youtube, widget: string, required: false}
